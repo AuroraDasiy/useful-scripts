@@ -8,10 +8,6 @@ from tkinter.scrolledtext import ScrolledText
 import os
 from PIL import Image, ImageDraw, ImageFont
 import cal
-import hashlib
-import random
-import requests
-import time
 ########################################################################################
 
 
@@ -327,7 +323,6 @@ def enable_main_window(popup):
 
 # 创建容器们
 def creat_frame(root):
-    global input_var, translate_i, translate_i1
     # 装载按钮的容器
     frame = ttk.Frame(root)
     # 分析日志按钮
@@ -347,17 +342,16 @@ def creat_frame(root):
     fm3.pack(fill=tk.BOTH)
     tr_lb1 = ttk.Label(fm3, text='计算器', font="Serif 18 bold")
     tr_lb1.pack()
-
     # 翻译容器
     frame1 = ttk.Frame(root)
 
     # 输入文本框
-
-    translate_i1 = tk.StringVar()
+    global input_var, translate_i
     translate_i = tk.StringVar()
     input_var = tk.StringVar()
     input_var.set('')  # 设置初始值为空
     ttk.Entry(root, justify=tk.LEFT, textvariable=input_var, font="Serif 18 bold").pack(fill=tk.BOTH, padx=6, pady=6)
+
     ##############################################################################################################
     #计算器部分
     # 按钮框架
@@ -388,38 +382,14 @@ def creat_frame(root):
 
     fm2 = ttk.Frame(root)
     fm2.pack(fill=tk.BOTH)
-    tr_lb = ttk.Label(fm2, text='---------Calcu/Tran--------------', font="Serif 18 bold")
-    tr_lb.pack()
-    frame1 = ttk.Frame(root)
-
-
-    translate_i1 = tk.StringVar()
-    translate_i = tk.StringVar()
-    # input_var = tk.StringVar()
-    # input_var.set('')  # 设置初始值为空
-    # ttk.Entry(root, justify=tk.LEFT, textvariable=input_var, font="Serif 18 bold").pack(fill=tk.BOTH, padx=6, pady=6)
-
-    fm2 = ttk.Frame(root)
-    fm2.pack(fill=tk.BOTH)
     tr_lb = ttk.Label(fm2, text='翻译', font="Serif 18 bold")
     tr_lb.pack()
+    # 翻译
     frame1.pack(fill=tk.X)
     input_entry = ttk.Entry(frame1, width=110, textvariable=translate_i)
     input_entry.pack()
 
-    frame_translate = ttk.Frame(root)
-    frame_translate.pack(fill=tk.BOTH)
-    translate_button = ttk.Button(frame_translate, text='英译汉', command=translate_button_command)
-    translate_button.pack(side=tk.LEFT)
-    translate_button1 = ttk.Button(frame_translate, text='汉译英', command=translate_button1_command)
-    translate_button1.pack(side=tk.RIGHT)
 
-    frame_translate_result = ttk.Frame(root)
-    frame_translate_result.pack(fill=tk.BOTH)
-    out_label = ttk.Label(frame_translate_result, text='结果', font="Serif 18 bold")
-    out_label.pack()
-    out_entry = ttk.Entry(frame_translate_result, width=110, textvariable=translate_i1)
-    out_entry.pack()
 # 创建窗体
 def creat_root(title):
     global root
@@ -500,49 +470,7 @@ def backspace():
 
 ##############################################################################################################
 #翻译部分
-# 翻译部分
-def baidu_translate(query, from_lang='auto', to_lang='en', appid='your_appid', secret_key='your_secret_key'):
-    api_url = "https://fanyi-api.baidu.com/api/trans/vip/translate"
 
-    salt = str(random.randint(32768, 65536))
-    sign = appid + query + salt + secret_key
-    sign = hashlib.md5(sign.encode()).hexdigest()
-
-    headers = {'Content-Type': 'application/x-www-form-urlencoded'}
-    params = {
-        'q': query,
-        'from': from_lang,
-        'to': to_lang,
-        'appid': appid,
-        'salt': salt,
-        'sign': sign
-    }
-
-    response = requests.post(api_url, data=params, headers=headers)
-    result = response.json()
-
-    if 'trans_result' in result:
-        return result['trans_result'][0]['dst']
-    else:
-        return result
-
-def translate(x):
-    global translate_i, translate_i1
-    appid = '20240530002065825'  # 替换为你的App ID
-    secret_key = 'nYGpoMhOYC_JerF9gYIJ'  # 替换为你的密钥
-    text_to_translate = translate_i.get()
-    if x == 'zh':
-        translated_text = baidu_translate(text_to_translate, from_lang='zh', to_lang='en', appid=appid, secret_key=secret_key)
-    elif x == 'en':
-        translated_text = baidu_translate(text_to_translate, from_lang='en', to_lang='zh', appid=appid, secret_key=secret_key)
-    translate_i1.set(translated_text)
-    print(f"Translated text: {translated_text}")
-
-def translate_button_command():
-    translate('en')
-
-def translate_button1_command():
-    translate('zh')
 
 ##############################################################################################################
 
