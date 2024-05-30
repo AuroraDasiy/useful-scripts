@@ -529,7 +529,7 @@ def baidu_translate(query, from_lang='auto', to_lang='en', appid='your_appid', s
 def translate(x):
     global translate_i, translate_i1
     appid = '20240530002065825'  # 替换为你的App ID
-    secret_key = 'nYGpoMhOYC_JerF9gYIJ'  # 替换为你的密钥
+    secret_key = 'nYGpoMhO'  # 替换为你的密钥
     text_to_translate = translate_i.get()
     if x == 'zh':
         translated_text = baidu_translate(text_to_translate, from_lang='zh', to_lang='en', appid=appid, secret_key=secret_key)
