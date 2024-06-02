@@ -529,7 +529,7 @@ def baidu_translate(query, from_lang='auto', to_lang='en', appid='your_appid', s
 def translate(x):
     global translate_i, translate_i1
     appid = '20240530002065825'  # App ID
-    secret_key = ''  # 密钥
+    secret_key = 'nYGpoMhOYC_JerF9gYIJ'  # 密钥
     text_to_translate = translate_i.get()
     if x == 'zh':
         translated_text = baidu_translate(text_to_translate, from_lang='zh', to_lang='en', appid=appid, secret_key=secret_key)
@@ -555,6 +555,6 @@ def translate_button1_command():
 
 # 主函数#
 def main():
-    creat_root('实用脚本v1.0---作者:Mr.Joker')
+    creat_root('实用脚本v1.0---作者:徐学昊(19020232202429)')
     diary_main()
 main()
